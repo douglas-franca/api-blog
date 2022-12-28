@@ -1,0 +1,1 @@
+json.partial! 'posts/post', post: @post, with_childs: true

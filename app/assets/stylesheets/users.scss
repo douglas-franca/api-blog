@@ -1,0 +1,21 @@
+// Place all the styles related to the Users controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: https://sass-lang.com/
+
+a{
+    color:white;
+    text-decoration: none;
+}
+a:visited{
+    color:white;   
+}
+.alert-p{
+    padding: 2%;
+    font-size: 24px;
+}
+.alert{
+    padding: 0px!important;
+    --bs-alert-padding-x: 0px!important;
+    --bs-alert-padding-y: 0px!important;
+    --bs-alert-border:0px!important;
+}
