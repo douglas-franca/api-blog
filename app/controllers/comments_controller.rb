@@ -5,11 +5,12 @@ class CommentsController < ApplicationController
     before_action :render_not_authorized, only: %i(update destroy)
 
     def index
-        @comments = @post.comments
+        @comments = @post.comments.includes(:likes, :user)
     end
 
     def show
-        # render json: @post
+
+        # render json: @post, @count
     end
 
     def create

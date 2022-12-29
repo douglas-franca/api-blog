@@ -6,7 +6,7 @@ class PostsController < ApplicationController
 
     # GET /posts
     def index
-        @posts = Post.all()
+        @posts = Post.all().includes(:likes, :comments, :tags, :user)
         # respond_to do |format|
         #     format.html{ render :index }
         #     format.json{ render json: @posts }

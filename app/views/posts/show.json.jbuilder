@@ -1,1 +1,1 @@
-json.partial! 'posts/post', post: @post, with_childs: true
+json.partial! 'posts/post', post: @post, with_childs: true, likes_index: false

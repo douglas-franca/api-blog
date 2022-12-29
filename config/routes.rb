@@ -6,6 +6,17 @@ Rails.application.routes.draw do
   patch '/user', to: 'users#update'
   delete '/user', to: 'users#destroy'
 
+  get '/user', to: 'users#show'
+  post '/user', to: 'users#create'
+  put '/user', to: 'users#update'
+  patch '/user', to: 'users#update'
+  delete '/user', to: 'users#destroy'
+
+  post '/posts/:post_id/like', to: 'likes#create_like_post'
+  delete '/posts/:post_id/like/:id', to: 'likes#destroy_like_post'
+  post '/posts/:post_id/comment/:comment_id/like', to: 'likes#create_like_comment'
+  delete '/posts/:post_id/comment/:comment_id/like/:id', to: 'likes#destroy_like_comment'
+
   post '/login', to: 'users#login'
 
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
@@ -15,6 +26,7 @@ Rails.application.routes.draw do
     resources :comments, except: %i(new edit)
   end
   
+
   # get '/posts', to: 'posts#index'
   # post '/posts', to: 'posts#create'  #arquivo posts, por padrão ele adiciona já _controller para procurar o arquivo e depois do ## coloca a função
   # get '/posts/:id', to: 'posts#show'  
