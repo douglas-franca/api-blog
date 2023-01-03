@@ -5,26 +5,23 @@ class LikesController < ApplicationController
     before_action :set_like, only: [:destroy_like_post, :destroy_like_comment]
     before_action :render_not_authorized, only: [ :destroy_like_post, :destroy_like_comment]
 
-
     # POST post/:id/like
     def create_like_post
         # byebug
         @like = Like.new(likeable: @post)
         @like.user = @user
         @like.save!
-        @like.includes(:user)
         render action: :show, status: :created
     end
 
-     # DELETE post/:id/like/:id
+     # DELETE post/:post_id/like/:id
     def destroy_like_post
         # byebug
         @like.destroy
         head :no_content
     end
 
-
-
+    # POST post/:post_id/comment/:comment_id/like
     def create_like_comment
         @like = Like.new(likeable: @comment)
         @like.user = @user
@@ -32,7 +29,7 @@ class LikesController < ApplicationController
         render action: :show, status: :created
     end
     
-
+    # POST post/:post_id/comment/:comment_id/like/:id
     def destroy_like_comment
         @like.destroy
         head :no_content
@@ -51,7 +48,6 @@ class LikesController < ApplicationController
     def set_comment
         @comment = @post.comments.find(params[:comment_id])
     end
-
 
     def authorized?
         @user == @like.user

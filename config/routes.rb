@@ -6,12 +6,6 @@ Rails.application.routes.draw do
   patch '/user', to: 'users#update'
   delete '/user', to: 'users#destroy'
 
-  get '/user', to: 'users#show'
-  post '/user', to: 'users#create'
-  put '/user', to: 'users#update'
-  patch '/user', to: 'users#update'
-  delete '/user', to: 'users#destroy'
-
   post '/posts/:post_id/like', to: 'likes#create_like_post'
   delete '/posts/:post_id/like/:id', to: 'likes#destroy_like_post'
   post '/posts/:post_id/comment/:comment_id/like', to: 'likes#create_like_comment'
