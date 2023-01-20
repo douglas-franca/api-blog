@@ -1,6 +1,6 @@
 class CommentsController < ApplicationController
-    before_action :set_post
-    before_action :set_comment, except: %i(index create)
+    before_action :set_post, except: %i( user_comments )
+    before_action :set_comment, except: %i(index create user_comments)
     before_action :authorized, except: %i(index show)
     before_action :render_not_authorized, only: %i(update destroy)
 
@@ -29,6 +29,12 @@ class CommentsController < ApplicationController
         @comment.destroy
         head :no_content        
     end
+
+    def user_comments
+        # byebug
+        @comments = Comment.where(user: @user).order(created_at: :desc)
+        render action: :index, status: :created 
+    end 
 
     private
         def comment_params

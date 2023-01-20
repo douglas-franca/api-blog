@@ -1,11 +1,18 @@
 class ApplicationController < ActionController::Base
     protect_from_forgery with: :null_session
+    before_action :set_current_user
     before_action :authorized
+    before_action :default_request_format
 
     rescue_from ActiveRecord::RecordNotFound, with: :render_not_found
     rescue_from ActiveRecord::RecordInvalid, with: :render_invalid
     rescue_from ActiveRecord::RecordNotUnique, with: :render_not_unique
 
+
+    
+
+
+    # rsa_private = OpenSSL::PKey::RSA.generate 2048
 
     def encode_token(payload)
         JWT.encode(payload, 's3cr3t')
@@ -21,6 +28,7 @@ class ApplicationController < ActionController::Base
           token = auth_header.split(' ')[1]
           # header: { 'Authorization': 'Bearer <token>' }
           begin
+            # byebug
             JWT.decode(token, 's3cr3t', true, algorithm: 'HS256')
           rescue JWT::DecodeError
             nil
@@ -29,6 +37,7 @@ class ApplicationController < ActionController::Base
     end
     
     def logged_in_user
+        # byebug
         reuslt_token = decoded_token
         if reuslt_token
           user_id = reuslt_token[0]['user_id']
@@ -44,7 +53,9 @@ class ApplicationController < ActionController::Base
         render json: { message: 'Please log in!' }, status: :unauthorized unless logged_in?
     end
     
-
+    def set_current_user
+        logged_in_user
+    end
 
 
 
@@ -69,4 +80,8 @@ class ApplicationController < ActionController::Base
                 status: :unauthorized
         end
     end
+
+    def default_request_format
+        request.format = :json
+      end
 end

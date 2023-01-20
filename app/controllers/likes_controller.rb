@@ -1,9 +1,20 @@
 class LikesController < ApplicationController
-    before_action :set_post
-    before_action :set_comment, only: [ :create_like_comment ]
-    before_action :authorized
-    before_action :set_like, only: [:destroy_like_post, :destroy_like_comment]
+    before_action :authorized,  except: [ :index, :index_comment ]
+    before_action :set_post, except: [ :destroy_like_comment ]
+    before_action :set_comment, only: [ :create_like_comment, :index_comment, :destroy_like_comment ]
+    before_action :set_post_like, only: [:destroy_like_post]
+    before_action :set_comment_like, only: [ :destroy_like_comment ]
     before_action :render_not_authorized, only: [ :destroy_like_post, :destroy_like_comment]
+
+    def index
+        @likes = @post.likes
+        render action: :index, status: :ok
+    end
+
+    def index_comment
+        @likes = @comment.likes
+        render action: :index, status: :ok
+    end
 
     # POST post/:id/like
     def create_like_post
@@ -38,15 +49,19 @@ class LikesController < ApplicationController
     private
 
     def set_post
-        @post = Post.find(params[:post_id]) 
+        @post = Post.find(params[:post_id])
     end
 
-    def set_like
-        @like = Like.find(params[:id])
+    def set_post_like
+        @like = Post.find(params[:post_id]).likes.find_by(user_id: @user.id)
+    end
+
+    def set_comment_like
+        @like = Comment.find(params[:comment_id]).likes.find_by(user_id: @user.id)
     end
 
     def set_comment
-        @comment = @post.comments.find(params[:comment_id])
+        @comment = Comment.find(params[:comment_id])
     end
 
     def authorized?

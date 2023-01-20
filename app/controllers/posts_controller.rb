@@ -6,6 +6,7 @@ class PostsController < ApplicationController
 
     # GET /posts
     def index
+        # byebug
         @posts = Post.all().includes(:likes, :comments, :tags, :user)
         # respond_to do |format|
         #     format.html{ render :index }
@@ -63,6 +64,13 @@ class PostsController < ApplicationController
         render 'tags/index', status: :ok
     end
 
+    def user_posts
+        @posts = Post.where(user: @user).order(created_at: :desc)
+        # @posts.order(created_at: :asc)
+        # byebug
+        render action: :index, status: :created 
+    end
+
     private
 
         def post_params
@@ -82,7 +90,7 @@ class PostsController < ApplicationController
             when 'link_tag'
                 @tag = Tag.find(tag_params[:tag_id])
             when 'unlink_tag'
-                @tag = @post.tags.find(tag_params[:tag_id])
+                @tag = @post.tags.find(params[:tag_id])
             end
         end
 

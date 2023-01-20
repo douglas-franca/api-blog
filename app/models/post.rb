@@ -4,7 +4,7 @@ class Post < ApplicationRecord
     has_many :likes, as: :likeable, dependent: :destroy
     belongs_to :user
 
-    validates :title, length: { within: 1..255}, uniqueness: true
+    validates :title, length: { within: 10..255}, uniqueness: true
     validates :description, length: { minimum: 10 }
 
     private

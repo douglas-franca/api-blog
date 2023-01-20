@@ -24,9 +24,11 @@ class UsersController < ApplicationController
   # POST /login
   def login
     @user = User.find_by(email: params[:email])
+    # byebug
 
     if @user && @user.authenticate(params[:password])
       @token = encode_token({user_id: @user.id})
+      # byebug
       render :show
     else
       render json: {error: 'Invalid Username or Password!'}
@@ -51,7 +53,6 @@ class UsersController < ApplicationController
     @user.destroy
     head :no_content 
   end
-
 
 
   private
